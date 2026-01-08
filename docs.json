@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "public":false,
+  "public":true,
   "theme": "mint",
   "name": "Mint Starter Kit",
   "colors": {
