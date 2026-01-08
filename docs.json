@@ -7,6 +7,7 @@
     "light": "#07C983",
     "dark": "#15803D"
   },
+  "public":true,
   "favicon": "/favicon.svg",
   "navigation": {
     "tabs": [
@@ -14,7 +15,6 @@
         "tab": "Guides",
         "groups": [
           {
-            "public":true,
             "group": "Getting started",
             "pages": [
               "index",
