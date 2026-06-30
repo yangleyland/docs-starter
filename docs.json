@@ -48,9 +48,6 @@
         ]
       },
       {
-        "sourceRef": "yangleyland/docs-wallis"
-      },
-      {
         "tab": "API reference",
         "groups": [
           {
