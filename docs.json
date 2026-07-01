@@ -9,9 +9,9 @@
   },
   "favicon": "/favicon.svg",
   "navigation": {
-    "products": [
+    "anchors": [
       {
-        "product": "Starter",
+        "anchor": "Starter Guides",
         "icon": "rocket",
         "groups": [
           {
@@ -45,7 +45,13 @@
               "ai-tools/claude-code",
               "ai-tools/windsurf"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "anchor": "Starter API Reference",
+        "icon": "code",
+        "groups": [
           {
             "group": "API documentation",
             "pages": [
