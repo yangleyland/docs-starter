@@ -46,6 +46,12 @@
               "ai-tools/claude-code",
               "ai-tools/windsurf"
             ]
+          },
+          {
+            "group": "Astronomy",
+            "pages": [
+              "eclipses"
+            ]
           }
         ]
       },
