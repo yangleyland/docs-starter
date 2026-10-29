@@ -40,6 +40,12 @@
             ]
           },
           {
+            "group": "Astronomy",
+            "pages": [
+              "nebulae"
+            ]
+          },
+          {
             "group": "AI tools",
             "pages": [
               "ai-tools/cursor",
