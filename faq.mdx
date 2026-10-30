@@ -1,0 +1,16 @@
+---
+title: "FAQ"
+description: "Answers to common questions about previewing, configuring and adding pages to this docs site"
+---
+
+<AccordionGroup>
+  <Accordion title="How do I preview the docs locally?">
+    Install the Mintlify CLI with `npm i -g mint`, then run `mint dev` in the directory that contains `docs.json`. Your preview is available at `http://localhost:3000`. See [Development](/development) for more options.
+  </Accordion>
+  <Accordion title="Where do I change the site's name, colors and logo?">
+    Edit `docs.json` at the root of the repository. See [Global settings](/essentials/settings) for every available field.
+  </Accordion>
+  <Accordion title="How do I add a new page?">
+    Create an `.mdx` file with `title` and `description` frontmatter, then add its path to the `navigation` section of `docs.json`. See [Navigation](/essentials/navigation) for details.
+  </Accordion>
+</AccordionGroup>
