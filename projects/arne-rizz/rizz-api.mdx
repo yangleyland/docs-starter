@@ -1,0 +1,88 @@
+---
+title: "Rizz API"
+description: "Endpoints, authentication, and response format for the fictional Rizz API in the arne-rizz docs site."
+icon: "code"
+---
+
+The Rizz API is a fictional REST API documented in the `api/` folder of `arne-rizz`. The `api.arnerizz.ai` host and the `@arnerizz/sdk` and `arnerizz` SDK packages do not exist.
+
+## Base URL
+
+```text
+https://api.arnerizz.ai/v1
+```
+
+## Authentication
+
+Send a `Rizz-Token` header with every request.
+
+```bash
+curl -H "Rizz-Token: arne-has-143-github-stars" \
+  https://api.arnerizz.ai/v1/status
+```
+
+## Response format
+
+Every response uses this shape.
+
+```json
+{
+  "success": true,
+  "rizz_level": "maximum",
+  "data": {},
+  "arne_says": "Ship fast, iterate faster."
+}
+```
+
+## Rate limits
+
+| Plan | Requests per hour | Max corniness level |
+|------|-------------------|---------------------|
+| Free | 10 | Mild |
+| Pro | 100 | Medium |
+| Founding Engineer | Unlimited | Nuclear |
+| YC Batch | Unlimited | Weapons-grade |
+
+## Endpoints
+
+### GET /v1/pickup-line
+
+Returns a pickup line for a venue.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `venue` | string | Yes | One of `club`, `pool_party`, `casino`, `restaurant`, `hotel_lobby`, `buffet_line`. |
+| `corniness` | integer | No | Scale of 1 to 10. Default is 7. |
+| `include_tech_flex` | boolean | No | Include references to Arne's portfolio. Default is `true`. |
+| `wearable_count` | integer | No | Number of wearables worn, 0 to 4. |
+| `target_humor` | string | No | One of `dry`, `punny`, `self_deprecating`, `bold`. Default is `self_deprecating`. |
+
+```bash
+curl -H "Rizz-Token: arne-has-143-github-stars" \
+  "https://api.arnerizz.ai/v1/pickup-line?venue=casino&corniness=9&include_tech_flex=true"
+```
+
+### POST /v1/rate-my-rizz
+
+Scores a conversation transcript and returns improvement suggestions.
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `transcript` | string | Yes | The conversation transcript. |
+| `venue` | string | Yes | Where the conversation took place. |
+| `duration_minutes` | integer | No | Length of the conversation. |
+| `wearables_worn` | integer | No | Number of wearables worn. |
+| `outcome` | string | No | One of `got_number`, `got_rejected`, `got_friendzoned`, `got_linkedin`, `unclear`. |
+
+The score ranges from 0.0 to 10.0. Scores of 9.0 and above are rated Legendary. Scores below 1.0 are rated System Failure.
+
+### POST /v1/emergency-recovery
+
+Returns recovery strategies after a social incident.
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `incident_type` | string | Yes | The type of incident, for example `AWKWARD_SILENCE`. |
+| `severity` | string | Yes | One of `low`, `medium`, `high`, `critical`, `arne_needs_to_leave_vegas`. |
+| `context` | string | No | What happened. |
+| `venue` | string | No | Where it happened. |

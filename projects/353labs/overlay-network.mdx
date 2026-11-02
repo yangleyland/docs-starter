@@ -1,0 +1,114 @@
+---
+title: "Overlay network"
+description: "INI file format, message types, and logging for the pa4 and pa5 overlay network nodes."
+icon: "diagram-project"
+---
+
+`lab10` to `lab14`, `pa4`, and `pa5` implement a node in a `353NET/1.0` overlay network. Each node runs as its own process. It listens on a port, connects to its neighbors, and floods link-state updates.
+
+## Node IDs
+
+A node ID is `host:port`. For local testing the host is empty, so IDs look like `:12000`.
+
+## Test topology
+
+The INI files in `pa4data/`, `pa5data/`, and the lab data folders use ports `12000` to `12012`.
+
+```text
+                   +-------+
+                /--+ 12010 +--------------------------\
+                |  +-------+                          |
+                |                                     |
++-------+   +---+---+     +-------+   +-------+   +---+---+
+| 12000 +---+ 12002 +-----+ 12004 +---+ 12006 +---+ 12008 |
++-------+   +---+---+     +---+---+   +-------+   +-------+
+                |             |
+                |  +-------+  |
+                \--+ 12012 +--/
+                   +-------+
+```
+
+Start a node for each port you want in the network. Each node reads its own INI file, for example `pa5data/pa5-12002.ini`.
+
+## INI file format
+
+Each node's INI file has these sections.
+
+| Section | Keys | Purpose |
+|---------|------|---------|
+| `[startup]` | `host`, `port`, `pidfile`, `logfile` | Node address and output files. If `logfile` is omitted, the node logs to standard output. |
+| `[topology]` | `<nodeid>=<neighbor>,<neighbor>,...` | Static neighbor list for every node. |
+| `[map]` | Lines starting with `;` | ASCII diagram of the topology. Comment only. |
+| `[params]` | `max_ttl`, `msg_lifetime`, `neighbor_retry_interval` | Initial TTL for flooded messages, message lifetime in seconds, and seconds between neighbor retries. |
+| `[logging]` | `SAYHELLO`, `LSUPDATE`, `UCASTAPP` | Set to `1` to log that message type, or `0` to skip it. |
+
+```ini
+[startup]
+host=
+port=12000
+pidfile=pa5data/12000.pid
+logfile=pa5data/12000.log
+
+[topology]
+:12000=:12002
+:12002=:12000,:12004,:12010,:12012
+
+[params]
+max_ttl=7
+msg_lifetime=6
+neighbor_retry_interval=4
+
+[logging]
+SAYHELLO=1
+LSUPDATE=1
+UCASTAPP=0
+```
+
+### Change ports and logging
+
+Each data folder includes two `tcsh` helper scripts.
+
+- `*-change-ports.csh` rewrites the port numbers in the INI files.
+- `*-change-logging.csh` (or `changelogging.csh`) toggles the `[logging]` flags.
+
+## Message types
+
+Messages use a text header that starts with `353NET/1.0 <TYPE>`. Header lines end with `\r\n`. A blank line separates the header from the body.
+
+| Type | Headers | Purpose |
+|------|---------|---------|
+| `SAYHELLO` | `TTL: 1`, `Flood: 0`, `From`, `Content-Length: 0` | A node announces itself to a neighbor. Nodes retry every `neighbor_retry_interval` seconds. |
+| `LSUPDATE` | `TTL`, `Flood: 1; reason=<n>`, `MessageID`, `From`, `OriginStartTime`, `Content-Length` | Floods a node's neighbor list. Receivers build the network graph from these messages. |
+| `UCASTAPP` | `TTL`, `Flood: 0`, `MessageID`, `From`, `To`, `Next-Layer`, `Content-Length` | Unicast message routed hop by hop using the forwarding table. |
+
+### Application payloads
+
+The body of a `UCASTAPP` message starts with `353UDT/1.0`.
+
+| Body | Used by |
+|------|---------|
+| `PING <sesid>` | `traceroute` probe. |
+| `PONG <sesid>` | Reply from the target node. |
+| `TTLZERO <sesid>` | Reply from a node where the probe TTL reached zero. |
+| `RDTDATA` | `rdtsend` data packet with `Seq-Number`, `RDT-App-Number`, and `RDT-Content-Length`. |
+| `RDTACK <seq> <app>` | Acknowledgment for an `RDTDATA` packet. |
+
+`rdtsend` uses an alternating sequence number (0 or 1) and a [`Timer`](/projects/353labs/shared-libraries) to retransmit on timeout.
+
+## Routing
+
+1. Each node floods an `LSUPDATE` message when its neighbors change.
+2. Each node stores the latest link state per node and builds an adjacency list.
+3. Each node runs a breadth-first search from itself to build the forwarding table. The `forwarding` command prints the table.
+
+## Log line format
+
+Each logged message is one line.
+
+```text
+[timestamp] <dir> <TYPE> <nodeid> <ttl> <flood> <length> {<short-id>} <origin-start-time> <from> (<body>)
+```
+
+- `<dir>` is `i` for a message the node initiated, `r` for a message it received, `f` for a unicast message it forwarded, and `d` for a flooded `LSUPDATE` it relayed to a neighbor.
+- `<flood>` is `F` for flooded messages and `-` otherwise.
+- `<short-id>` is the first 8 characters of the `MessageID`.

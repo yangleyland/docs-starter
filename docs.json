@@ -64,6 +64,29 @@
         ]
       },
       {
+        "anchor": "Projects",
+        "icon": "folder-open",
+        "groups": [
+          {
+            "group": "353labs",
+            "pages": [
+              "projects/353labs/overview",
+              "projects/353labs/labs",
+              "projects/353labs/programming-assignments",
+              "projects/353labs/overlay-network",
+              "projects/353labs/shared-libraries"
+            ]
+          },
+          {
+            "group": "arne-rizz",
+            "pages": [
+              "projects/arne-rizz/overview",
+              "projects/arne-rizz/rizz-api"
+            ]
+          }
+        ]
+      },
+      {
         "anchor": "Starter API Reference",
         "icon": "code",
         "openapi": {

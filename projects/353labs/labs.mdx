@@ -1,0 +1,61 @@
+---
+title: "Labs"
+description: "Summary of the 14 weekly labs in the 353labs repository."
+icon: "flask"
+---
+
+Each lab directory has a `Makefile` and a `labNdata/` folder. The `labNdata/` folder contains notes (`*-notes.txt`), `tmux-*.txt` scripts that open several panes to run a test, and any input files.
+
+## Lab summary
+
+| Lab | Focus | Main files |
+|-----|-------|------------|
+| `lab1` | Shell commands and a first C++ program | `lab1b.cpp`, `lab1data/lab1a-notes.txt` |
+| `lab2` | Graph input files (vertex count, edge count, edge list) read by C++ programs | `lab2a.cpp`, `lab2b.cpp`, `lab2c.cpp`, `lab2data/graph1.txt` to `graph6.txt` |
+| `lab3` | TCP echo server and client | `echo-server.cpp`, `echo-client.cpp`, `lab3c.cpp`, `lab3d.cpp`, `lab3e.cpp` |
+| `lab4` | Serving and fetching files over sockets | `lab4a.cpp`, `lab4b.cpp`, `lab4d.cpp`, `lab4data/` (sample files) |
+| `lab5` | MD5 checksums, logging, progress output, and file splitting | `lab5a.cpp`, `md5-calc.cpp`, `logging.cpp`, `progress.cpp` |
+| `lab6` | Rate-limited file server (about 1 KB/s per download) | `lab6b.cpp`, `lab6c.cpp`, `lab6d.cpp` (`lab6d` uses a token bucket) |
+| `lab7` | Multithreaded server and race conditions | `lab7b.cpp`, `lab7c.cpp`, `connection.h`, `lab7data/race.cpp` |
+| `lab8` | Multithreaded server with a mutex and a log file | `lab8a.cpp`, `lab8b.cpp` |
+| `lab9` | Condition variables and a connection reaper thread | `lab9b.cpp`, `lab9c.cpp`, `lab9data/cv.cpp` |
+| `lab10` | Overlay node: INI configuration, `SAYHELLO`, and the `neighbors` command | `lab10a.cpp` |
+| `lab11` | Overlay node: `LSUPDATE` flooding and the `netgraph` command | `lab11a.cpp`, `node.h` |
+| `lab12` | Overlay node: `forwarding` table and `udtsend` command | `lab12a.cpp`, `lab12b.cpp` |
+| `lab13` | Overlay node: `traceroute`, events, and timers | `lab13a.cpp`, `event.h`, `timer.h` |
+| `lab14` | Reliable data transfer (RDT 3.0) and the `pa5` build | `lab14b.cpp`, `RDT30_state.h`, `RDTsender.h`, `echojob.h` |
+
+Labs `lab10` to `lab14` build toward [`pa4` and `pa5`](/projects/353labs/overlay-network).
+
+## Build and run a lab
+
+Each `Makefile` lists its targets in the `all:` rule. For example, `lab9` builds `lab9b` and `lab9c`.
+
+```bash
+cd lab9
+make
+./lab9b
+```
+
+Labs `lab10` to `lab14` take an INI file as their argument. Use the files in the `labNdata/` folder.
+
+```bash
+cd lab11
+make
+./lab11a lab11data/lab11-12000.ini
+```
+
+## Run a test with tmux
+
+Test scripts in `labNdata/` named `tmux-labNx.txt` start a `tmux` session with one pane per process. Run them from the lab directory.
+
+```bash
+chmod 755 ./lab11data/tmux-lab11a.txt
+./lab11data/tmux-lab11a.txt
+```
+
+Switch between panes with `Ctrl+b` followed by an arrow key. Read the matching `*-notes.txt` file for the expected output of each step.
+
+<Note>
+The `.tar.gz` archives in each lab folder are bundled copies of the lab handout and data files.
+</Note>

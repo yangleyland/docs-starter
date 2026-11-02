@@ -1,0 +1,62 @@
+---
+title: "arne-rizz overview"
+description: "A Mintlify docs site that serves as a satirical Las Vegas playbook and mock API reference."
+icon: "heart"
+---
+
+The `arne-rizz` repository is a Mintlify documentation site called "Arne's Vegas Rizz Playbook". It is a humorous guide with a fictional API reference. Use it as an example of a multi-tab Mintlify site.
+
+## Site structure
+
+`docs.json` uses the `almond` theme with a rose color palette (`#E11D48`). Navigation has two tabs.
+
+### The Playbook tab
+
+| Group | Pages |
+|-------|-------|
+| Welcome | `index`, `why-arne` |
+| Pre-Flight Checklist | `preflight/outfit`, `preflight/mindset`, `preflight/tech-stack` |
+| Core Rizz Fundamentals | `fundamentals/opening-lines`, `fundamentals/body-language`, `fundamentals/conversation` |
+| Vegas Locations | `locations/clubs`, `locations/pool-parties`, `locations/casino-floor`, `locations/fine-dining` |
+| Advanced Techniques | `advanced/poker-rizz`, `advanced/tech-flex`, `advanced/ai-wingman` |
+
+### The Rizz API tab
+
+| Group | Pages |
+|-------|-------|
+| API Reference | `api/introduction`, `api/get-pickup-line`, `api/rate-my-rizz`, `api/emergency-recovery` |
+
+See [Rizz API](/projects/arne-rizz/rizz-api) for the endpoints.
+
+## Repository layout
+
+| Path | Contents |
+|------|----------|
+| `docs.json` | Site configuration and navigation. |
+| `index.mdx`, `why-arne.mdx` | Landing and background pages. |
+| `preflight/`, `fundamentals/`, `locations/`, `advanced/` | Playbook content. |
+| `api/` | Pages for the Rizz API. |
+| `api-reference/` | Starter-kit OpenAPI example (`openapi.json`, plant store) and endpoint pages. These pages are not in the navigation. |
+| `essentials/`, `ai-tools/`, `snippets/`, `development.mdx`, `quickstart.mdx` | Leftover Mintlify starter-kit pages. These pages are not in the navigation. |
+| `images/`, `logo/`, `favicon.svg` | Images and branding. |
+| `AGENTS.md` | Instructions for AI writing tools. |
+| `.mintignore` | Excludes `drafts/` and `*.draft.mdx` from the site. |
+
+## Components used
+
+The pages use these Mintlify components: `Card` and `CardGroup`, `Steps`, `Accordion` and `AccordionGroup`, `Note`, `Tip`, and `Warning`, plus Markdown tables and code blocks.
+
+## Preview locally
+
+Install the Mintlify CLI, then run `mint dev` in the folder that contains `docs.json`.
+
+```bash
+npm i -g mint
+mint dev
+```
+
+The preview runs at `http://localhost:3000`. Run `mint broken-links` to check links.
+
+## Contribute
+
+Edit a page on GitHub, or fork the repository and open a pull request. Follow the writing guidelines in `CONTRIBUTING.md`. Use active voice, address the reader as "you", and keep sentences short.
