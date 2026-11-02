@@ -1,0 +1,70 @@
+---
+title: "Shared libraries"
+description: "Helper modules that the labs and assignments copy and reuse."
+icon: "book"
+---
+
+Starting in `lab3`, each directory includes copies of a small set of helper modules. Compile them alongside your main source file.
+
+## my_socket
+
+Declared in `my_socket.h`.
+
+| Function | Purpose |
+|----------|---------|
+| `create_listening_socket(port)` | Creates a listening socket on the given port string. |
+| `my_accept(listen_socket_fd)` | Accepts a connection and returns the new socket descriptor. |
+| `create_client_socket_and_connect(hostname, port)` | Connects to a server and returns the socket descriptor. |
+| `get_ip_and_port_for_server(socket_fd, server_side)` | Returns the `ip:port` string for one end of a connection. |
+| `get_ip_and_port_for_client(client_socket_fd, client_side)` | Returns the `ip:port` string for the client side of a connection. |
+
+## my_readwrite
+
+Declared in `my_readwrite.h`.
+
+| Function | Purpose |
+|----------|---------|
+| `read_a_line(socket_fd, line)` | Reads one line from a socket into a string. |
+| `better_write(fd, buf, bytes_to_write)` | Writes the full buffer, handling partial writes. |
+| `better_write_header(fd, buf, bytes_to_write)` | Writes an HTTP header. Turn on debug output with `better_write_header_debug(1)`. |
+| `open_file_for_reading(filename)` | Opens a file read-only and returns the descriptor. |
+| `open_file_for_writing(filename)` | Opens a file for writing and returns the descriptor. |
+
+## my_timestamp
+
+Declared in `my_timestamp.h`.
+
+| Function | Purpose |
+|----------|---------|
+| `get_timestamp_now()` | Returns the current time as a formatted string. |
+| `format_timestamp(timestamp)` | Formats a `struct timeval`. |
+| `timestamp_cmp(t1, t2)` | Compares two timestamps. |
+| `timestamp_diff_in_seconds(older, newer)` | Returns the difference as a `double`. |
+| `str_timestamp_diff_in_seconds(older, newer)` | Returns the difference as a string. |
+| `convert_seconds_to_timestamp(seconds, out)` | Converts seconds to a `struct timeval`. |
+| `add_seconds_to_timestamp(older, seconds, newer)` | Adds seconds to a timestamp. |
+
+## parse_ini
+
+Declared in `parse_ini.h`. Available from `pa2` onward.
+
+- `parseIniFile(path, startupConfig)` reads an INI file. It returns a map of section name to key-value pairs. The `[startup]` section is returned through the second argument.
+- `HexDump(buf, len)` formats a buffer as hex for debug output.
+- `get_file_size1(path)` returns the size of a file.
+- `parseMD5(input)` extracts an MD5 value from a string.
+
+The `pa3` version also defines `Config` (`P`, `MAXR`, `DIAL`) and `StartupConfig` (`port`, `logfile`, `pidfile`, `rootdir`) structs.
+
+## Header-only helpers
+
+These headers appear in later labs and in `pa4` and `pa5`.
+
+| Header | Introduced | Purpose |
+|--------|------------|---------|
+| `connection.h` | `lab7` | Per-connection state for the server. |
+| `message.h` | `lab9` | `Message` class with header fields (`from`, `to`, `ttl`, `flood`, `msg_type`, `message_text`). |
+| `node.h` | `lab11` | `Node` class holding a node ID, link state, neighbors, and BFS state. |
+| `event.h` | `lab13` | `Event` class with `type`, `from`, `sesid`, `seq_no`, and `app_no`. |
+| `timer.h` | `lab13` | `Timer` class that runs on its own thread and posts a `TIMEOUT` event on expiry. |
+| `RDT30_state.h`, `RDTsender.h` | `lab14` | State for the RDT 3.0 reliable data transfer protocol. |
+| `echojob.h` | `lab14` | Job record for the echo application. |

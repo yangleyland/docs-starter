@@ -1,0 +1,145 @@
+---
+title: "Programming assignments"
+description: "Build, usage, and commands for pa1 to pa5."
+icon: "code"
+---
+
+Each `paN` directory has a `Makefile` with a `paN` target and a `paN-README.txt` grading file. The README file lists the build command, self-graded scores for each test section, and tests to skip.
+
+## Summary
+
+| Assignment | Program | Run command |
+|------------|---------|-------------|
+| `pa1` | Maze solver | `./pa1 [r c] filename` |
+| `pa2` | HTTP server and client | `./pa2 ini_file` or `./pa2 -c host port uri output ...` |
+| `pa3` | Throttled multithreaded HTTP server | `./pa3 ini_file` |
+| `pa4` | Overlay network node | `./pa4 ini_file` |
+| `pa5` | Overlay network node with reliable data transfer | `./pa5 ini_file` |
+
+## pa1: maze solver
+
+`pa1` reads an ASCII maze from a file and prints it with each cell replaced by a distance digit (modulo 10).
+
+```bash
+cd pa1
+make pa1
+./pa1 pa1data/f0
+./pa1 2 3 pa1data/f1
+```
+
+- Pass an optional start row and column (`r c`) before the filename. The default start is row `0`, column `0`.
+- A maze with only `' '` between cells (Type-I) is solved with a breadth-first search. The output shows the number of steps from the start.
+- A maze with digits between cells (Type-II) is solved with Dijkstra's algorithm. The digits are edge weights.
+- A maze can have at most 32 rows and 64 columns.
+- `pa1data/` contains sample mazes named `f0`, `f1`, and so on, reference solutions in `sol`, and the `section-A.csh` and `section-B.csh` test scripts.
+
+## pa2: HTTP server and client
+
+`pa2` is both a web server and a web client. Link it with `-lcrypto`.
+
+**Server mode.** Pass an INI file.
+
+```bash
+cd pa2
+make pa2
+./pa2 pa2.ini
+```
+
+The `[startup]` section of the INI file must define all of these keys. `pa2` exits with `Missing key in ini file` if one is absent. If `logfile` is missing, `pa2` logs to standard output.
+
+```ini
+[startup]
+port=12345
+logfile=pa2.log
+pidfile=pa2.pid
+rootdir=pa2data
+```
+
+**Client mode.** Pass `-c`, the server host, the port, and one or more pairs of URI and output filename.
+
+```bash
+./pa2 -c localhost 12345 /textbooks-1-small.jpg out1.jpg
+```
+
+The server supports persistent connections. The grading sections test `wget` clients, persistent connections, a response with no `Content-Length` header, a large file download, and a `pa2` client against a `pa2` server.
+
+## pa3: throttled HTTP server
+
+`pa3` extends `pa2` with a thread per connection and a token-bucket rate limiter. Build with `-lcrypto -pthread`.
+
+```bash
+cd pa3
+make pa3
+./pa3 pa3data/pa3-startup.ini
+```
+
+The INI file has a `[startup]` section like `pa2`. It also has a `[*]` default section and optional sections named for file extensions (`pdf`, `png`, `gif`). Each section sets three values.
+
+| Key | Meaning |
+|-----|---------|
+| `P` | Divisor applied to the token rate. |
+| `MAXR` | Token rate in tokens per second. |
+| `DIAL` | Percentage of the full rate to use. |
+
+The data rate for a connection is `(MAXR / P) * (DIAL / 100)` KB/s.
+
+```ini
+[*]
+P=2
+MAXR=10
+DIAL=30
+
+[pdf]
+P=5
+MAXR=96
+DIAL=25
+```
+
+At the `pa3` prompt, enter these commands.
+
+| Command | Action |
+|---------|--------|
+| `status` | Lists active connections with client address, path, `Content-Length`, start time, shaper parameters, and bytes sent. Prints `No active connections.` when none are open. |
+| `close #` | Closes connection number `#`. |
+| `dial # percent` | Sets the dial for connection `#` to a value from 1 to 100. |
+| `quit` | Shuts down the server. |
+
+## pa4: overlay network node
+
+`pa4` is one node in an overlay network. Start one process per node, each with its own INI file.
+
+```bash
+cd pa4
+make pa4
+./pa4 pa4data/pa4AB-12000.ini
+```
+
+Commands at the node prompt:
+
+| Command | Action |
+|---------|--------|
+| `neighbors` | Lists active neighbors, or prints `<nodeid> has no active neighbors`. |
+| `netgraph` | Prints the network graph built from received `LSUPDATE` messages. |
+| `quit` | Terminates the node. |
+
+The `pa4data/` folder has three INI sets: `pa4AB-*.ini` (neighbors), `pa4CD-*.ini` (netgraph), and `pa4EF-*.ini`. See [Overlay network](/projects/353labs/overlay-network) for the INI format and protocol.
+
+## pa5: forwarding, traceroute, and RDT
+
+`pa5` is built from the `lab14` directory. It adds routing and a reliable data transfer layer on top of `pa4`.
+
+```bash
+cd lab14
+make pa5
+./pa5 pa5data/pa5-12000.ini
+```
+
+`pa5` supports the `pa4` commands plus these commands.
+
+| Command | Action |
+|---------|--------|
+| `forwarding` | Prints the forwarding table, or `<nodeid> has an empty forwarding table`. |
+| `traceroute <nodeid>` | Sends probes with increasing TTL. Prints `Cannot traceroute to yourself` if the target is the local node. |
+| `rdtsend <nodeid> <message>` | Sends a message to a node using RDT 3.0 and waits for the acknowledgment. |
+
+`pa5-README.txt` self-grades parts A to D and skips part E (`echoapp`).

@@ -1,0 +1,60 @@
+---
+title: "353labs overview"
+description: "C++ network programming labs and programming assignments for a computer networks course."
+icon: "network-wired"
+---
+
+The `353labs` repository holds C++ coursework for a computer networks course. It contains 14 weekly labs (`lab1` to `lab14`) and 5 programming assignments (`pa1` to `pa5`). The work builds from a basic TCP echo server to a multi-node overlay network with reliable data transfer.
+
+## Repository layout
+
+Each lab or assignment lives in its own top-level directory. Directories are self-contained, so each one has its own `Makefile` and its own copy of the shared helper libraries.
+
+| Directory | Contents |
+|-----------|----------|
+| `lab1` to `lab14` | Weekly lab source, `.script` transcripts, and a `labNdata/` folder with test data and notes |
+| `pa1` | Maze solver |
+| `pa2` | HTTP server and client |
+| `pa3` | Multithreaded, throttled HTTP server |
+| `pa4` | Overlay network node with link-state routing |
+| `pa5` | Overlay network node with forwarding, traceroute, and reliable data transfer |
+
+## Build requirements
+
+- `g++` with C++11 support.
+- OpenSSL development libraries. Several targets link with `-lcrypto`.
+- `tmux` and `tcsh`. The test scripts in each `*data/` folder use them.
+
+All `Makefile` files compile with these flags:
+
+```bash
+g++ -g -Wall -std=c++11 -DLOCALHOST=\"127.0.0.1\"
+```
+
+## Build a target
+
+Run `make` with the target name from inside the directory.
+
+```bash
+cd pa3
+make pa3
+```
+
+Run `make clean` to remove binaries and object files.
+
+## Where to go next
+
+<CardGroup cols={2}>
+  <Card title="Labs" icon="flask" href="/projects/353labs/labs">
+    What each of the 14 labs covers and how to build it.
+  </Card>
+  <Card title="Programming assignments" icon="code" href="/projects/353labs/programming-assignments">
+    Usage, configuration, and commands for `pa1` to `pa5`.
+  </Card>
+  <Card title="Shared libraries" icon="book" href="/projects/353labs/shared-libraries">
+    Socket, I/O, timestamp, and INI helpers reused across labs.
+  </Card>
+  <Card title="Overlay network" icon="diagram-project" href="/projects/353labs/overlay-network">
+    The `353NET/1.0` protocol, INI file format, and logging in `pa4` and `pa5`.
+  </Card>
+</CardGroup>
