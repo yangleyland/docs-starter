@@ -1,0 +1,17 @@
+---
+title: 'E2E legacy trigger repo: repository summary'
+description: 'A short summary of the weatherapp.net repository'
+icon: 'cloud-sun'
+---
+
+## weatherapp.net
+
+`weatherapp.net` is a .NET MAUI app that shows current weather for a city. It targets Android, iOS, Mac Catalyst, and Windows, as defined in `WeatherApp.csproj`.
+
+Key files:
+
+- `MainPage.xaml` and `MainPage.xaml.cs` define the UI and handle the city search button.
+- `RestService.cs` sends the HTTP request and deserializes the JSON response.
+- `WeatherData.cs` maps the OpenWeatherMap response to C# classes.
+- `Constants.cs` holds the OpenWeatherMap endpoint and API key settings.
+- `FahrenheitToCelciusConverter.cs` and `LongToDateTimeConverter.cs` format values for display.
