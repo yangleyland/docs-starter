@@ -1,0 +1,23 @@
+---
+title: 'Repository summaries (November 2, 2026)'
+description: 'A short summary of the weatherapp.net and jwt-server repositories'
+icon: 'book'
+---
+
+This page summarizes the `weatherapp.net` and `jwt-server` repositories.
+
+## weatherapp.net
+
+`weatherapp.net` is a .NET MAUI weather app that targets Android, iOS, Mac Catalyst, and Windows. The project is defined in `WeatherApp.csproj`.
+
+- `RestService.cs` sends HTTP requests and deserializes the JSON response into a `WeatherData` object.
+- `Constants.cs` holds the OpenWeatherMap endpoint and API key settings.
+- `MainPage.xaml` defines the main weather screen.
+
+## jwt-server
+
+`jwt-server` is a small Express server for testing JWT authentication with a docs site. It uses the `jose` library to sign tokens.
+
+- `server.js` serves a login page where you pick a user and groups, signs a JWT with EdDSA that expires after 8 hours, and redirects to the docs site's `/login/jwt-callback` path with the token in the URL hash.
+- `generate-keys.js` creates an EdDSA key pair. You paste the public key into the Mintlify dashboard and save the private key as `JWT_PRIVATE_KEY`.
+- Run `npm run generate-keys` to generate keys and `npm start` to start the server. The server listens on port `4500` by default.
