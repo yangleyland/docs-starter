@@ -1,0 +1,43 @@
+---
+title: 'WeatherApp'
+description: 'Overview of the .NET MAUI app that shows current weather for a city'
+icon: 'cloud-sun'
+---
+
+WeatherApp is a cross-platform .NET MAUI app. You enter a city name and the app shows the current weather from the OpenWeatherMap API.
+
+## What the app shows
+
+After you tap **Get Weather**, the app displays:
+
+- City name and country
+- Temperature in °C
+- Weather description
+- Humidity, wind speed, pressure, and cloudiness
+- Sunrise and sunset times in UTC
+
+## Supported platforms
+
+`WeatherApp.csproj` targets .NET 6 on Android, iOS, and Mac Catalyst. It also targets Windows when you build on Windows. Platform-specific code lives in the `Platforms/` folder.
+
+## How it works
+
+1. `MainPage.xaml` defines the UI, including the city entry and the **Get Weather** button.
+2. `MainPage.xaml.cs` builds the request URL from the city you enter. It requests `imperial` units.
+3. `RestService.cs` sends the request with `HttpClient` and deserializes the JSON response with Newtonsoft.Json.
+4. `WeatherData.cs` defines the response model. The app sets it as the page's `BindingContext`, so the UI updates through data bindings.
+
+## Key files
+
+| File | Purpose |
+| --- | --- |
+| `Constants.cs` | Stores the OpenWeatherMap endpoint and API key. |
+| `RestService.cs` | Calls the weather API and returns a `WeatherData` object. |
+| `WeatherData.cs` | Maps the API's JSON response to C# classes. |
+| `FahrenheitToCelciusConverter.cs` | Converts the API's Fahrenheit temperature to rounded Celsius for display. |
+| `LongToDateTimeConverter.cs` | Converts Unix timestamps for sunrise and sunset to UTC date and time strings. |
+| `MauiProgram.cs` | Configures and starts the MAUI app. |
+
+<Warning>
+  Keep your OpenWeatherMap API key out of source control. The project defines the key in `Constants.cs`, so replace it with your own key and load it from secure configuration.
+</Warning>
