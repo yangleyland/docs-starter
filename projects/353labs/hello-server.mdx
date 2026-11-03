@@ -1,0 +1,84 @@
+---
+title: "Hello server"
+description: "Run the hello_server.py HTTP server and call the /v1/hello and /v1/goodbye endpoints."
+icon: "hand-wave"
+---
+
+The `hello_server.py` script in the `353labs` repository is a small HTTP server with two `GET` endpoints. It uses only the Python standard library.
+
+## Run the server
+
+```bash
+python3 hello_server.py
+```
+
+The server listens on `0.0.0.0` and port `8080` by default.
+
+## Configuration
+
+Set these environment variables before you start the server.
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `HELLO_GREETING` | `Hello` | Greeting used for `lang=en` on `/v1/hello`. |
+| `HELLO_PORT` | `8080` | Port the server listens on. |
+
+## GET /v1/hello
+
+Returns a greeting as JSON.
+
+| Query parameter | Default | Description |
+|-----------------|---------|-------------|
+| `name` | `world` | Name to greet. The server truncates names to 64 characters. |
+| `shout` | `false` | Set to `true` to return the message in uppercase. |
+| `lang` | `en` | Greeting language. Supported values are `en`, `es`, `fr`, and `ja`. |
+
+```bash
+curl "http://localhost:8080/v1/hello?name=Ada&lang=es&shout=true"
+```
+
+```json
+{
+  "message": "HOLA, ADA!",
+  "lang": "es"
+}
+```
+
+The greetings for each language are:
+
+| `lang` | Greeting |
+|--------|----------|
+| `en` | `Hello` (or the value of `HELLO_GREETING`) |
+| `es` | `Hola` |
+| `fr` | `Bonjour` |
+| `ja` | `Konnichiwa` |
+
+If `lang` is not supported, the server returns status `400` with an error message.
+
+```json
+{
+  "error": "unsupported lang: de"
+}
+```
+
+## GET /v1/goodbye
+
+Returns a farewell as JSON.
+
+| Query parameter | Default | Description |
+|-----------------|---------|-------------|
+| `name` | `world` | Name to bid farewell. The server truncates names to 64 characters. |
+
+```bash
+curl "http://localhost:8080/v1/goodbye?name=Ada"
+```
+
+```json
+{
+  "message": "Goodbye, Ada!"
+}
+```
+
+## Other paths
+
+The server returns status `404` for any other path.
