@@ -1,0 +1,26 @@
+---
+title: 'Git history check'
+description: 'Output of git history commands run against the reference repo and this docs repo'
+---
+
+## Reference repo: `git log --oneline -6`
+
+```text
+23be903 Mintlify sandbox base 9547578984482d813aca0805d8dd42a65de45b94
+```
+
+## Reference repo: `git show --stat HEAD~2`
+
+The reference repo has only one commit, so this command fails.
+
+```text
+fatal: ambiguous argument 'HEAD~2': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+```
+
+## Docs repo: `git log --oneline -3`
+
+```text
+44bdd5e Mintlify sandbox base f305d99edfc954581e6b5dc4c7c897f745bff903
+```
