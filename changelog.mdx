@@ -4,6 +4,21 @@ description: "Product updates from the Starter repo for RSS lineBlame testing"
 rss: true
 ---
 
+<Update label="Nov 3, 2026" tags={["Added"]}>
+## Hello and goodbye APIs
+
+### New features
+
+- **Hello endpoint**: Call `GET /v1/hello` to get a greeting. Pass `name` to personalize it.
+- **Shout option**: Set `shout=true` to receive the greeting in uppercase.
+- **Language option**: Set `lang` to `en`, `es`, `fr`, or `ja` for a greeting in that language. Unsupported values return a `400` error.
+- **Goodbye endpoint**: Call `GET /v1/goodbye` with an optional `name` to get a farewell.
+
+### Updates
+
+- Names longer than 64 characters are truncated in greetings.
+</Update>
+
 <Update label="Nov 2, 2026" tags={["Added"]}>
 ## Projects section
 
