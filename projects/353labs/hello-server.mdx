@@ -1,0 +1,84 @@
+---
+title: "Hello server"
+description: "HTTP endpoints, query parameters, and environment variables for hello_server.py."
+icon: "hand-wave"
+---
+
+`hello_server.py` is a small Python HTTP server in the `353labs` repository. It uses only the standard library and returns JSON greetings.
+
+## Run the server
+
+```bash
+python3 hello_server.py
+```
+
+The server listens on `0.0.0.0` at the port set by `HELLO_PORT`.
+
+## Configuration
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `HELLO_PORT` | `8080` | Port the server listens on. |
+| `HELLO_GREETING` | `Hello` | Greeting used for `lang=en` on `/v1/hello`. |
+
+## GET /v1/hello
+
+Returns a greeting for `name`.
+
+| Query parameter | Default | Description |
+|-----------------|---------|-------------|
+| `name` | `world` | Name to greet. The server cuts names off at 64 characters. |
+| `lang` | `en` | Language of the greeting. Supported values are `en`, `es`, `fr`, and `ja`. |
+| `shout` | `false` | Set to `true` to return the message in uppercase. |
+
+The greeting for each `lang` value:
+
+| `lang` | Greeting |
+|--------|----------|
+| `en` | `HELLO_GREETING` (default `Hello`) |
+| `es` | `Hola` |
+| `fr` | `Bonjour` |
+| `ja` | `Konnichiwa` |
+
+```bash
+curl "http://localhost:8080/v1/hello?name=Ada&lang=fr"
+```
+
+```json
+{
+  "message": "Bonjour, Ada!",
+  "lang": "fr"
+}
+```
+
+An unsupported `lang` value returns status `400`.
+
+```json
+{
+  "error": "unsupported lang: de"
+}
+```
+
+## GET /v1/goodbye
+
+Returns a farewell for `name`.
+
+| Query parameter | Default | Description |
+|-----------------|---------|-------------|
+| `name` | `world` | Name to say goodbye to. The server cuts names off at 64 characters. |
+
+```bash
+curl "http://localhost:8080/v1/goodbye?name=Ada"
+```
+
+```json
+{
+  "message": "Goodbye, Ada!"
+}
+```
+
+`/v1/goodbye` ignores `lang` and `shout`.
+
+## Other paths
+
+Any other path returns status `404`.
