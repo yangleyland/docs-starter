@@ -1,0 +1,22 @@
+---
+title: 'E2E push trigger manual run: repository summaries'
+description: 'Short summaries of the weatherapp.net and jwt-server repositories'
+icon: 'book'
+---
+
+## weatherapp.net
+
+A .NET MAUI app that shows current weather for a city. It targets Android, iOS, Mac Catalyst, and Windows, as configured in `WeatherApp.csproj`.
+
+- `MainPage.xaml` defines the UI, including the temperature and location labels.
+- `RestService.cs` sends the HTTP request and deserializes the JSON response into `WeatherData`.
+- `Constants.cs` holds the OpenWeatherMap endpoint and API key settings.
+- `FahrenheitToCelciusConverter.cs` converts the temperature for display in °C.
+
+## jwt-server
+
+A small Node.js Express server that signs JWTs to test authentication on a docs site. It uses the `jose` library.
+
+- `server.js` serves a login page at `GET /` where you pick a user and groups. `POST /` signs a JWT with those groups, which expires in 8 hours. It then redirects to the docs site's `/login/jwt-callback` path with the token in the URL hash.
+- `generate-keys.js` generates an EdDSA key pair. Run it with `npm run generate-keys`.
+- The server reads the private key from the `JWT_PRIVATE_KEY` environment variable or from `private-key.pem`.
