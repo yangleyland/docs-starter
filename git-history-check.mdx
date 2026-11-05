@@ -1,0 +1,36 @@
+---
+title: "Git history check"
+description: "Output of git history commands for the 353labs and docs repos."
+---
+
+## 353labs: `git log --oneline -6`
+
+```text
+9547578 Add /v1/goodbye endpoint and restore hello server (#2)
+89eaabb Add /v1/goodbye endpoint (#1)
+aee9d08 Add /v1/hello greeting API with shout and lang options
+23f37e8 Add hello world
+57e46b2 asdf
+ce2bc3d first commit
+```
+
+## 353labs: `git show --stat HEAD~2`
+
+```text
+commit aee9d08fa0ead0256a659283b58f75763a12e009
+Author: Leyland Yang <yangleyland@gmail.com>
+Date:   Mon Nov 2 15:12:14 2026 -0800
+
+    Add /v1/hello greeting API with shout and lang options
+
+ hello_server.py | 44 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
+```
+
+## Docs: `git log --oneline -3`
+
+```text
+5644704 docs: add Star Wars page for November 4, 2026 16:02 UTC (#118)
+dbafa5b docs: add Beagle dog breed page (#113)
+533599f docs: add Star Wars page for November 3, 2026 16:01 UTC (#107)
+```
