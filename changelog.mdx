@@ -4,6 +4,20 @@ description: "Product updates from the Starter repo for RSS lineBlame testing"
 rss: true
 ---
 
+<Update label="Nov 5, 2026" tags={["Added"]}>
+## Hello and goodbye greeting API
+
+### New features
+
+- **`/v1/hello` endpoint**: Get a greeting as JSON. Pass `name` to personalize it, `shout=true` for uppercase, and `lang` for `en`, `es`, `fr`, or `ja`.
+- **`/v1/goodbye` endpoint**: Get a goodbye message as JSON. Pass `name` to personalize it.
+
+### Updates
+
+- Names longer than 64 characters are truncated.
+- Unsupported `lang` values return a `400` response with an error message.
+</Update>
+
 <Update label="Nov 2, 2026" tags={["Added"]}>
 ## Projects section
 
