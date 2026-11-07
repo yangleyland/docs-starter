@@ -83,7 +83,8 @@
               "projects/353labs/labs",
               "projects/353labs/programming-assignments",
               "projects/353labs/overlay-network",
-              "projects/353labs/shared-libraries"
+              "projects/353labs/shared-libraries",
+              "projects/353labs/hello-server"
             ]
           },
           {
