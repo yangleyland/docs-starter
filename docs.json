@@ -95,6 +95,12 @@
             ]
           },
           {
+            "group": "weatherapp.net",
+            "pages": [
+              "weatherapp"
+            ]
+          },
+          {
             "group": "arne-rizz",
             "pages": [
               "projects/arne-rizz/overview",
