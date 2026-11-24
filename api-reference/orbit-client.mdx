@@ -1,0 +1,52 @@
+---
+title: 'Orbit API client'
+description: 'Configure the Orbit API TypeScript client with your API key and base URL, then fetch a project by its ID with the getProject method.'
+---
+
+The Orbit API client is a TypeScript class, `OrbitClient`, that wraps requests to the Orbit API. It sends your API key with every request and parses each JSON response for you.
+
+## Create a client
+
+Pass an options object to the `OrbitClient` constructor.
+
+```typescript
+const client = new OrbitClient({
+  apiKey: process.env.ORBIT_API_KEY,
+});
+```
+
+### Options
+
+<ParamField body="apiKey" type="string" required>
+  Your Orbit API key. The client sends it in the `Authorization` header of every request.
+</ParamField>
+
+<ParamField body="baseUrl" type="string" default="https://api.orbit.example.com/v1">
+  The base URL for API requests. Set it to point the client at a different Orbit API host.
+</ParamField>
+
+## Authentication
+
+The client authenticates with a Bearer token. Every request includes this header:
+
+```http
+Authorization: Bearer <apiKey>
+```
+
+## Methods
+
+### getProject
+
+Fetches a single project by its ID.
+
+```typescript
+const project = await client.getProject('proj_123');
+```
+
+<ParamField path="projectId" type="string" required>
+  The ID of the project to fetch.
+</ParamField>
+
+The method sends `GET /projects/{projectId}` to your base URL. With the default base URL, that is `https://api.orbit.example.com/v1/projects/{projectId}`.
+
+It returns a promise that resolves to the parsed JSON response body, typed as `unknown`. The method does not check the HTTP status code, so a JSON error response resolves like a successful one instead of throwing.
