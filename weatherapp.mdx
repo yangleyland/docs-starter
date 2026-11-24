@@ -1,0 +1,45 @@
+---
+title: "WeatherApp"
+description: "A .NET MAUI app that looks up current weather for a city using the OpenWeatherMap API."
+icon: "cloud-sun"
+---
+
+The `weatherapp.net` repository is a cross-platform .NET MAUI app. You enter a city name, and the app shows the current weather from the OpenWeatherMap API.
+
+## Supported platforms
+
+`WeatherApp.csproj` targets `net6.0-android`, `net6.0-ios`, and `net6.0-maccatalyst`. It adds `net6.0-windows10.0.19041` when you build on Windows. Platform-specific code lives in the `Platforms` folder.
+
+## How it works
+
+1. You type a city in the text entry on `MainPage.xaml` and tap **Get Weather**.
+2. `MainPage.xaml.cs` builds a request URL from the endpoint in `Constants.cs`. It adds the city as `q`, sets `units=imperial`, and appends the API key.
+3. `RestService.cs` sends the request with `HttpClient`. It deserializes the JSON response with Newtonsoft.Json.
+4. `MainPage` sets the result as its `BindingContext`, and the XAML bindings update the UI.
+
+## Key files
+
+| File | Purpose |
+|------|---------|
+| `MainPage.xaml` | UI layout with data bindings for the weather fields |
+| `MainPage.xaml.cs` | Handles the button click and builds the request URL |
+| `RestService.cs` | Calls the OpenWeatherMap endpoint and parses the response |
+| `WeatherData.cs` | Model classes mapped to the API's JSON fields |
+| `Constants.cs` | OpenWeatherMap endpoint and API key |
+| `FahrenheitToCelciusConverter.cs` | Converts the Fahrenheit temperature to rounded Celsius for display |
+| `LongToDateTimeConverter.cs` | Converts Unix timestamps for sunrise and sunset to UTC date and time |
+| `MauiProgram.cs` | Configures the MAUI app and registers the OpenSans font |
+
+## Data displayed
+
+The app shows these values for the city you search:
+
+- City name and country
+- Temperature in °C
+- Weather description
+- Humidity, wind speed, pressure, and cloudiness
+- Sunrise and sunset times in UTC
+
+## Configuration
+
+Set your own OpenWeatherMap API key in `Constants.cs` before you build. Don't commit real keys to a public repository.
