@@ -148,7 +148,8 @@
           {
             "group": "API documentation",
             "pages": [
-              "api-reference/introduction"
+              "api-reference/introduction",
+              "api-reference/orbit-client"
             ]
           },
           {
